@@ -1,0 +1,21 @@
+version: "3.9"
+
+services:
+  modresorts-app:
+    image: modresorts:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - TZ=UTC
+      - JAVA_OPTS=-Xms256m -Xmx512m -XX:+UseContainerSupport -XX:+UnlockExperimentalVMOptions -XX:MaxRAMPercentage=75.0
+      - SPRING_PROFILES_ACTIVE=docker
+    volumes:
+      - ./config:/app/config
+    restart: unless-stopped
+
+networks:
+  default:
+    name: modresorts-network
